@@ -2,11 +2,16 @@ package com.dkd.manage.service.impl;
 
 import java.util.List;
 import com.dkd.common.utils.DateUtils;
+import com.dkd.manage.domain.Role;
+import com.dkd.manage.mapper.RegionMapper;
+import com.dkd.manage.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dkd.manage.mapper.EmpMapper;
 import com.dkd.manage.domain.Emp;
 import com.dkd.manage.service.IEmpService;
+
+import javax.annotation.Resource;
 
 /**
  * 人员列表Service业务层处理
@@ -19,6 +24,12 @@ public class EmpServiceImpl implements IEmpService
 {
     @Autowired
     private EmpMapper empMapper;
+
+    @Resource
+    private RegionMapper regionMapper;
+
+    @Resource
+    private RoleMapper roleMapper;
 
     /**
      * 查询人员列表
@@ -53,6 +64,13 @@ public class EmpServiceImpl implements IEmpService
     @Override
     public int insertEmp(Emp emp)
     {
+        // 获取归属区域
+        emp.setRegionName(regionMapper.selectRegionById(emp.getRegionId()).getRegionName());
+        // 补充角色信息
+        Role role = roleMapper.selectRoleByRoleId(emp.getRoleId());
+        emp.setRoleName(role.getRoleName());
+        emp.setRoleCode(role.getRoleCode());
+        // 补充属性
         emp.setCreateTime(DateUtils.getNowDate());
         return empMapper.insertEmp(emp);
     }
@@ -66,6 +84,13 @@ public class EmpServiceImpl implements IEmpService
     @Override
     public int updateEmp(Emp emp)
     {
+        // 获取归属区域
+        emp.setRegionName(regionMapper.selectRegionById(emp.getRegionId()).getRegionName());
+        // 补充角色信息
+        Role role = roleMapper.selectRoleByRoleId(emp.getRoleId());
+        emp.setRoleName(role.getRoleName());
+        emp.setRoleCode(role.getRoleCode());
+        // 补充属性
         emp.setUpdateTime(DateUtils.getNowDate());
         return empMapper.updateEmp(emp);
     }
