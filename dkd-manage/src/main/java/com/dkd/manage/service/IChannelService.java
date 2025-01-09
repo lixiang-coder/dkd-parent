@@ -58,4 +58,12 @@ public interface IChannelService
      * @return 结果
      */
     public int deleteChannelById(Long id);
+
+    /**
+     * 批量新增售货机货道
+     *
+     * @param channelList channel对象集合
+     * @return 结果
+     */
+    public int insertChannelBatch(List<Channel> channelList);
 }

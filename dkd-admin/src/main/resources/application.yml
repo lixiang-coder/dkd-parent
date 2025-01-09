@@ -136,8 +136,8 @@ dromara:
     aliyun-oss:
       - platform: aliyun-oss-1 # 存储平台标识
         enable-storage: true  # 启用存储
-        access-key: LTAI5tLNKUzZxCyMjk1uyoZq
-        secret-key: lfYEfJJvpefwthVOgqUPe6yL8WJGqK
+        access-key: ${accessKey:LTAI5tLNKUzZxCyMjk1uyoZq}
+        secret-key: ${secretKey:lfYEfJJvpefwthVOgqUPe6yL8WJGqK}
         end-point: oss-cn-hangzhou.aliyuncs.com
         bucket-name: dkd-lixiang
         domain: https://dkd-lixiang.oss-cn-hangzhou.aliyuncs.com/ # 访问域名，注意“/”结尾，例如：https://abc.oss-cn-shanghai.aliyuncs.com/
