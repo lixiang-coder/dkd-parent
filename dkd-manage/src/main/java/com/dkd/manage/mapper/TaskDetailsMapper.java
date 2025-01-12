@@ -2,6 +2,7 @@ package com.dkd.manage.mapper;
 
 import java.util.List;
 import com.dkd.manage.domain.TaskDetails;
+import com.dkd.manage.domain.dto.TaskDetailsDto;
 
 /**
  * 工单详情Mapper接口
@@ -58,4 +59,13 @@ public interface TaskDetailsMapper
      * @return 结果
      */
     public int deleteTaskDetailsByDetailsIds(Long[] detailsIds);
+
+
+    /**
+     * 批量新增工单详情
+     *
+     * @param taskDetailsList
+     * @return 结果
+     */
+    int batchInsertTaskDetails(List<TaskDetails> taskDetailsList);
 }

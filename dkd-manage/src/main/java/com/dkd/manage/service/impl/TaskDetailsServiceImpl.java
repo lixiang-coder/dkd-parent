@@ -1,6 +1,8 @@
 package com.dkd.manage.service.impl;
 
 import java.util.List;
+
+import com.dkd.manage.domain.dto.TaskDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dkd.manage.mapper.TaskDetailsMapper;
@@ -89,5 +91,16 @@ public class TaskDetailsServiceImpl implements ITaskDetailsService
     public int deleteTaskDetailsByDetailsId(Long detailsId)
     {
         return taskDetailsMapper.deleteTaskDetailsByDetailsId(detailsId);
+    }
+
+    /**
+     * 批量新增工单详情
+     *
+     * @param taskDetailsList
+     * @return
+     */
+    @Override
+    public int batchInsertTaskDetails(List<TaskDetails> taskDetailsList) {
+        return taskDetailsMapper.batchInsertTaskDetails(taskDetailsList);
     }
 }

@@ -2,6 +2,7 @@ package com.dkd.manage.service;
 
 import java.util.List;
 import com.dkd.manage.domain.TaskDetails;
+import com.dkd.manage.domain.dto.TaskDetailsDto;
 
 /**
  * 工单详情Service接口
@@ -58,4 +59,12 @@ public interface ITaskDetailsService
      * @return 结果
      */
     public int deleteTaskDetailsByDetailsId(Long detailsId);
+
+    /**
+     * 批量新增工单详情
+     *
+     * @param taskDetailsList
+     * @return
+     */
+    int batchInsertTaskDetails(List<TaskDetails> taskDetailsList);
 }
