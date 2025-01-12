@@ -118,12 +118,32 @@ public class EmpController extends BaseController
         // 1.查询售货机信息
         VendingMachine vendingMachine = vendingMachineService.selectVendingMachineByInnerCode(innerCode);
         if (vendingMachine == null) {
-            return error();
+            return error("售货机不存在");
         }
         // 2.根据区域id、角色编号、员工状态查询运营人员列表
         Emp emp = new Emp();
-        emp.setRegionId(vendingMachine.getRegionId());      // // 设备所属区域
-        emp.setRoleCode(DkdContants.ROLE_CODE_BUSINESS);    // 运营员
+        emp.setRegionId(vendingMachine.getRegionId());      // 设备所属区域
+        emp.setRoleCode(DkdContants.ROLE_CODE_BUSINESS);    // 角色编码：运营员
+        emp.setStatus(DkdContants.EMP_STATUS_NORMAL);       // 员工启用
+        return success(empService.selectEmpList(emp));
+    }
+
+    /**
+     * 根据售货机获取运维人员列表
+     */
+    @PreAuthorize("@ss.hasPermi('manage:emp:list')")
+    @GetMapping("/operationList/{innerCode}")
+    public AjaxResult operationList(@PathVariable("innerCode") String innerCode) {
+        // 1.查询售货机信息
+        VendingMachine vendingMachine = vendingMachineService.selectVendingMachineByInnerCode(innerCode);
+        if (vendingMachine == null) {
+            return error("售货机不存在");
+        }
+
+        // 2.根据区域id、角色编号、员工状态查询运维人员列表
+        Emp emp = new Emp();
+        emp.setRegionId(vendingMachine.getRegionId());      // 设备所属区域
+        emp.setRoleCode(DkdContants.ROLE_CODE_OPERATOR);    // 角色编码：维修员
         emp.setStatus(DkdContants.EMP_STATUS_NORMAL);       // 员工启用
         return success(empService.selectEmpList(emp));
     }
