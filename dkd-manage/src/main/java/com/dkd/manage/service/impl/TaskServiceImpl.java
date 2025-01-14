@@ -192,6 +192,33 @@ public class TaskServiceImpl implements ITaskService
     }
 
     /**
+     * 取消工单
+     *
+     * @param task
+     * @return
+     */
+    @Override
+    public int cancelTask(Task task) {
+        // 1. 判断工单状态是否可以取消
+        // 先根据工单id查询数据库
+        Task taskDb = taskMapper.selectTaskByTaskId(task.getTaskId());
+
+        // 判断工单状态是否为已取消，如果是，则抛出异常
+        if (taskDb.getTaskStatus().equals(DkdContants.TASK_STATUS_CANCEL)) {
+            throw new ServiceException("该工单已取消了，不能再次取消");
+        }
+        // 判断工单状态是否为已完成，如果是，则抛出异常
+        if (taskDb.getTaskStatus().equals(DkdContants.TASK_STATUS_FINISH)) {
+            throw new ServiceException("该工单已完成了，不能取消");
+        }
+        // 2. 设置更新字段
+        task.setTaskStatus(DkdContants.TASK_STATUS_CANCEL);// 工单状态：取消
+        task.setUpdateTime(DateUtils.getNowDate());// 更新时间
+        // 3. 更新工单
+        return taskMapper.updateTask(task);// 注意别传错了，这里是前端task参数
+    }
+
+    /**
      * 生成并获取当天任务代码的唯一标识。
      * 该方法首先尝试从Redis中获取当天的任务代码计数，如果不存在，则初始化为1并返回"日期0001"格式的字符串。
      * 如果存在，则对计数加1并返回更新后的任务代码。
