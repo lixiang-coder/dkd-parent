@@ -1,5 +1,6 @@
 package com.dkd.manage.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.dkd.common.annotation.Excel;
@@ -16,6 +17,7 @@ public class Order extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 主键 */
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     /** 订单编号 */

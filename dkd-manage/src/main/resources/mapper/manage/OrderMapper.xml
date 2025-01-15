@@ -36,14 +36,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, order_no, third_no, inner_code, channel_code, sku_id, sku_name, class_id, status, amount, price, pay_type, pay_status, bill, addr, region_id, region_name, business_type, partner_id, open_id, node_id, node_name, cancel_desc, create_time, update_time from tb_order
     </sql>
 
+    <!-- 查看订单管理列表 -->
     <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
         <include refid="selectOrderVo"/>
         <where>  
             <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
-            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
         </where>
     </select>
 
+    <!-- 查看订单管理详情 -->
     <select id="selectOrderById" parameterType="Long" resultMap="OrderResult">
         <include refid="selectOrderVo"/>
         where id = #{id}
